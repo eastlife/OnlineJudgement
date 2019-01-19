@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 
 declare var ace: any;
 
@@ -52,7 +52,9 @@ class Solution:
     'JavaScript': 'javascript'
   };
 
-  constructor() { }
+  constructor(@Inject('collaboration') private collaboration) {
+
+  }
 
   ngOnInit() {
     this.initEditor();
@@ -65,6 +67,7 @@ class Solution:
     // this.editor.setValue(this.defaultContent['Java']);
     this.editor.$blockScrolling = Infinity;
     this.resetEditor();
+    this.collaboration.init();
   }
 
   setLanguage(language: string): void {
