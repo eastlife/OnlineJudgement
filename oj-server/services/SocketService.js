@@ -42,5 +42,25 @@ module.exports = function(io) {
                 console.log("WARNING: cannot tie socket_id to any collaboration!");
             }
         });
+
+        // handle cursorMove events
+        socket.on('cursorMove', cursor => {
+            console.log('cursorMove' + socketIdToSessionId[socket.id] + " " + cursor);
+            let sessionId = socketIdToSessionId[socket.id];
+            cursor = JSON.parse(cursor);
+            cursor['socketId']  = socket.id;
+
+            if (sessionId in collaborations) {
+                let participants = collaborations[sessionId]['participants'];
+                for (let i = 0; i < participants.length; i++) {
+                    if (socket.id != participants[i]){
+                        io.to(participants[i]).emit('cursorMove', JSON.stringify(cursor)); // don't forget this!
+                    }
+                }
+            } else {
+                console.log("WARNING: cannot tie socket_id to any collaboration!");
+            }
+        });
+
     });
 };

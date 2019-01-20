@@ -83,11 +83,17 @@ class Solution:
     this.collaboration.init(this.editor, this.sessionId);
     this.editor.lastAppliedChange = null;
 
-    this.editor.on('change', (e) =>{
+    this.editor.on('change', (e) => {
       console.log('editor changes: ' + JSON.stringify(e));
       if (this.editor.lastAppliedChange !== e) {
         this.collaboration.change(JSON.stringify(e));
       }
+    });
+
+    this.editor.getSession().getSelection().on('changeCursor', () => {
+      const cursor = this.editor.getSession().getSelection().getCursor();
+      console.log('cursor moves: ' + JSON.stringify(cursor));
+      this.collaboration.cursorMove(JSON.stringify(cursor));
     });
   }
 
@@ -103,7 +109,7 @@ class Solution:
   }
 
   submit(): void {
-    let userCode = this.editor.getValue();
+    const userCode = this.editor.getValue();
     console.log(userCode);
   }
 
