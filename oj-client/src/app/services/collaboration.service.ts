@@ -71,4 +71,8 @@ export class CollaborationService {
     console.log('cursorlog : ' + cursor);
     this.collaborationSocket.emit('cursorMove', cursor);
   }
+
+  restoreBuffer(): void {
+    this.collaborationSocket.emit('restoreBuffer');
+  }
 }

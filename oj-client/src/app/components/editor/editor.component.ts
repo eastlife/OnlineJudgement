@@ -95,6 +95,8 @@ class Solution:
       console.log('cursor moves: ' + JSON.stringify(cursor));
       this.collaboration.cursorMove(JSON.stringify(cursor));
     });
+
+    this.collaboration.restoreBuffer();
   }
 
   setLanguage(language: string): void {
